@@ -1,0 +1,30 @@
+{
+    "type": "page",
+    "meta": {
+        "id": "accueil",
+        "status": "draft",
+        "updated": "2026-05-11"
+    },
+    "layout": [
+        {
+            "type": "article_ref",
+            "filename": "accueil-commerce.json"
+        },
+        {
+            "type": "article_ref",
+            "filename": "accueil-artiste.json"
+        },
+        {
+            "type": "article_ref",
+            "filename": "accueil-services.json"
+        },
+        {
+            "type": "article_ref",
+            "filename": "accueil-autonomie.json"
+        },
+        {
+            "type": "article_ref",
+            "filename": "accueil-contact.json"
+        }
+    ]
+}

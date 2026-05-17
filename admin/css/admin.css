@@ -1,0 +1,455 @@
+/* Global reset */
+
+:root {
+    /* Couleurs principales */
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --bg-light: #f8f8f8;
+    --bg-white: #ffffff;
+    --bg-extra-light:#fafafa;
+
+    /* Gris et bordures */
+    --border-color: #ccc;
+    --border-soft: #ddd;
+    --text-dark: var(--text-dark);
+    --text-muted: #666;
+
+    /* États */
+    --shadow-subtle: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --radius: 4px;
+    --radius-lg: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Style pour la page principale */
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: var(--bg-light);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/*Header et lien*/
+/* Style général pour le header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f4f4f4;
+    /* Couleur douce pour le fond */
+    padding: 15px 30px;
+    border-bottom: 2px solid #ddd;
+    /* Petite séparation */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ombre subtile */
+}
+
+/* Style pour le titre */
+header h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    /* Texte sombre mais lisible */
+    margin: 0;
+}
+
+/* Style pour le lien */
+header a {
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: var(--primary-color);
+    /* Couleur bleue classique pour un bouton */
+    color: var(--bg-white);
+    padding: 8px 16px;
+    border-radius: 4px;
+    /* Coins arrondis */
+    transition: background-color 0.3s ease;
+}
+
+/* Hover et focus pour le lien */
+header a:hover,
+header a:focus {
+    background-color: #0056b3;
+    /* Bleu légèrement plus foncé */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Légère mise en avant */
+}
+
+/*Fin Header et lien*/
+
+/* Conteneur des formulaires */
+.form-contener {
+    background-color: var(--bg-white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres des sections */
+.form-contener h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+/* Style des inputs et du select */
+.form-contener input[type="text"],
+.form-contener select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.form-contener input[type="text"]:focus,
+.form-contener select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Style des boutons */
+.form-contener button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.form-contener button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Espacement entre les sections */
+.form-contener+.form-contener {
+    margin-top: 2rem;
+}
+
+/* Liste des galeries */
+.form-contener ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.form-contener li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.form-contener li:last-child {
+    border-bottom: none;
+}
+
+.form-contener form {
+    display: inline;
+}
+
+/* Pour les petits écrans */
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+    }
+
+    .form-contener {
+        padding: 15px;
+    }
+
+    .form-contener h2 {
+        font-size: 1.25rem;
+    }
+
+    .form-contener input[type="text"],
+    .form-contener select {
+        padding: 8px;
+    }
+
+    .form-contener button {
+        padding: 8px 15px;
+    }
+}
+/* =========================================================
+   À ajouter à la fin de admin.css
+   Classes génériques partagées par toutes les pages admin
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+    --admin-font:        'DM Sans', sans-serif;
+    --admin-font-mono:   'DM Mono', monospace;
+    --admin-bg:          #f2f3f5;
+    --admin-surface:     #ffffff;
+    --admin-border:      #e2e4e8;
+    --admin-accent:      #3b5bdb;
+    --admin-accent-soft: #edf2ff;
+    --admin-danger:      #e03131;
+    --admin-danger-soft: #fff5f5;
+    --admin-success:     #2f9e44;
+    --admin-text:        #1a1b1e;
+    --admin-muted:       #868e96;
+    --admin-radius:      6px;
+    --admin-radius-lg:   10px;
+    --admin-shadow:      0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+
+/* ---- Layout ---- */
+
+.admin-editor-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    padding: 24px;
+    min-height: calc(100vh - 80px);
+    background: var(--admin-bg);
+    font-family: var(--admin-font);
+}
+
+/* ---- Sidebar ---- */
+
+.admin-sidebar {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-lg);
+    padding: 20px;
+    box-shadow: var(--admin-shadow);
+    align-self: start;
+}
+
+.admin-sidebar h4 {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--admin-muted);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: var(--admin-radius);
+    border: 1px solid transparent;
+    transition: background .15s, border-color .15s;
+}
+
+.sidebar-item:hover {
+    background: var(--admin-accent-soft);
+    border-color: var(--admin-border);
+}
+
+.sidebar-item .item-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .875rem;
+    color: var(--admin-text);
+    min-width: 0;
+}
+
+.sidebar-item .item-main span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-item .item-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* ---- Contenu principal ---- */
+
+.admin-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-section {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-lg);
+    padding: 24px;
+    box-shadow: var(--admin-shadow);
+}
+
+.form-section h4 {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--admin-muted);
+    margin-bottom: 16px;
+}
+
+/* ---- Inputs ---- */
+
+.main-title-input,
+.form-section input[type="text"],
+.form-section select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    font-size: .9rem;
+    font-family: var(--admin-font);
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    transition: border-color .2s, box-shadow .2s;
+    margin-bottom: 12px;
+}
+
+.main-title-input:focus,
+.form-section input[type="text"]:focus,
+.form-section select:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 0 3px rgba(59,91,219,.12);
+    background: var(--admin-surface);
+}
+
+/* ---- Boutons ---- */
+
+.btn-primary,
+.btn-secondary,
+.btn-save,
+.btn-delete-file,
+.btn-delete-image,
+.btn-rename-image {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--admin-radius);
+    font-size: .85rem;
+    font-family: var(--admin-font);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--admin-accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2f4ac2;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    border: 1px solid var(--admin-border);
+}
+
+.btn-secondary:hover {
+    background: var(--admin-accent-soft);
+    border-color: var(--admin-accent);
+    color: var(--admin-accent);
+}
+
+.btn-save {
+    background: var(--admin-success);
+    color: #fff;
+}
+
+.btn-save:hover {
+    background: #257a36;
+    transform: translateY(-1px);
+}
+
+.btn-delete-file,
+.btn-delete-image {
+    background: transparent;
+    color: var(--admin-danger);
+    padding: 4px 8px;
+    font-size: .9rem;
+}
+
+.btn-delete-file:hover,
+.btn-delete-image:hover {
+    background: var(--admin-danger-soft);
+}
+
+.btn-rename-image {
+    background: transparent;
+    color: var(--admin-muted);
+    padding: 4px 8px;
+    font-size: .9rem;
+}
+
+.btn-rename-image:hover {
+    background: var(--admin-accent-soft);
+    color: var(--admin-accent);
+}
+
+/* ---- Messages ---- */
+
+.admin-error {
+    background: var(--admin-danger-soft);
+    color: var(--admin-danger);
+    border: 1px solid #ffc9c9;
+    border-radius: var(--admin-radius);
+    padding: 12px 16px;
+    font-size: .875rem;
+    margin: 16px 24px 0;
+}
+
+.admin-success {
+    background: #ebfbee;
+    color: var(--admin-success);
+    border: 1px solid #b2f2bb;
+    border-radius: var(--admin-radius);
+    padding: 12px 16px;
+    font-size: .875rem;
+    margin: 16px 24px 0;
+}
+
+.field-hint {
+    font-size: .8rem;
+    color: var(--admin-muted);
+    margin-top: 8px;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 768px) {
+    .admin-editor-container {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+}

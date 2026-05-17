@@ -1,0 +1,24 @@
+{
+    "singlepage": false,
+    "titleWebsite": [
+        "Mon",
+        "projet",
+        ".com"
+    ],
+    "repImg": "content",
+    "repImgDeco": "deco",
+    "langs": [
+        {
+            "code": "fr",
+            "label": "Français"
+        },
+        {
+            "code": "nl",
+            "label": "Nederlands"
+        },
+        {
+            "code": "en",
+            "label": "English"
+        }
+    ]
+}

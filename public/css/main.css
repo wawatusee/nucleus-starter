@@ -1,0 +1,154 @@
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-sm);
+}
+
+section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+/* =====================================================
+   NUCLEUS — CONTENU ARTICLE
+   Styles des blocs produits par ArticleRenderer
+===================================================== */
+
+/* ---------------------------------
+   Article conteneur
+---------------------------------- */
+
+.nucleus-article {
+  margin-bottom: var(--spacing-lg);
+}
+
+.nucleus-article:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------
+   Titres — qualifiés par niveau
+   Indépendants — le JSON pilote le niveau
+---------------------------------- */
+
+h1.nucleus-title {
+  font-family:   var(--font-title);
+  font-size:     var(--fs-xl);
+  color:         var(--color-primary);
+  font-weight:   500;
+  line-height:   1.2;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 2px solid var(--color-accent);
+}
+
+h2.nucleus-title {
+  font-family:   var(--font-title);
+  font-size:     var(--fs-lg);
+  color:         var(--color-primary);
+  font-weight:   500;
+  line-height:   1.2;
+  margin-bottom: var(--spacing-xs);
+  margin-top:    var(--spacing-md);
+}
+
+h3.nucleus-title {
+  font-family:   var(--font-title);
+  font-size:     var(--fs-md);
+  color:         var(--color-primary-dark);
+  font-weight:   500;
+  margin-bottom: var(--spacing-xs);
+  margin-top:    var(--spacing-sm);
+}
+
+h4.nucleus-title,
+h5.nucleus-title,
+h6.nucleus-title {
+  font-family:   var(--font-base);
+  font-size:     var(--fs-sm);
+  color:         var(--color-text);
+  font-weight:   600;
+  margin-bottom: var(--spacing-xs);
+  margin-top:    var(--spacing-sm);
+}
+
+/* ---------------------------------
+   Texte
+---------------------------------- */
+
+.nucleus-text {
+  color:         var(--color-text);
+  font-size:     var(--fs-sm);
+  line-height:   1.7;
+  margin-bottom: var(--spacing-sm);
+}
+
+.nucleus-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------
+   Lien
+---------------------------------- */
+
+.nucleus-link {
+  margin-bottom: var(--spacing-xs);
+}
+
+.nucleus-link a {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             0.4rem;
+  color:           var(--color-primary);
+  font-weight:     500;
+  text-decoration: none;
+  border-bottom:   1px solid transparent;
+  transition:      border-color var(--transition), color var(--transition);
+}
+
+.nucleus-link a:hover {
+  color:        var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ---------------------------------
+   Liste
+---------------------------------- */
+
+.nucleus-list {
+  padding-left:  1.4rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.nucleus-list li {
+  color:         var(--color-text);
+  font-size:     var(--fs-sm);
+  line-height:   1.7;
+  margin-bottom: 0.4rem;
+  padding-left:  0.3rem;
+}
+
+.nucleus-list li::marker {
+  color: var(--color-accent);
+}
+/* ---------------------------------
+   Image
+---------------------------------- */
+
+.nucleus-image {
+  display:       block;
+  max-width:     100%;
+  height:        auto;
+  border-radius: var(--radius);
+  margin:        var(--spacing-md) 0;
+}
+
+/* Image suivie d'un texte ou d'un lien — réduit l'espace */
+.nucleus-image + .nucleus-text,
+.nucleus-image + .nucleus-link {
+  margin-top: calc(var(--spacing-xs) * -1);
+}

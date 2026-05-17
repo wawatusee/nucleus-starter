@@ -1,0 +1,45 @@
+{
+    "_schema_version": "1.0",
+    "_description": "Structure de référence pour les composants Nucleus",
+    
+    "type": "article",
+    "meta": {
+        "id": "exemple-article",
+        "created": "2025-01-15",
+        "updated": "2025-01-15",
+        "status": "draft",
+        "author": "admin"
+    },
+    "content": [
+        {
+            "type": "title",
+            "level": 2,
+            "data": {
+                "fr": "Mon titre en français",
+                "en": "My title in English"
+            }
+        },
+        {
+            "type": "text",
+            "data": {
+                "fr": "Paragraphe en français.",
+                "en": "Paragraph in English."
+            }
+        },
+        {
+            "type": "list",
+            "data": {
+                "fr": ["Élément 1", "Élément 2"],
+                "en": ["Item 1", "Item 2"]
+            }
+        },
+        {
+            "type": "link",
+            "url": "https://example.com",
+            "data": {
+                "fr": "Voir le site",
+                "en": "View website"
+            }
+        }
+    ]
+}

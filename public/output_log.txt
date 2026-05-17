@@ -1,0 +1,90 @@
+[index.php:49] <!DOCTYPE html>
+<html lang="fr" prefix="og:http://ogp.me/ns#">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="keywords" content="">
+    <meta property="og:title" content="mascarade-bdx.fr">
+    <meta property="og:type" content="article" />
+
+    <meta property="og:image:width" content="1090">
+    <meta property="og:image:height" content="177">
+    <meta property="og:site_name" content="mascarade-bdx.fr">
+
+    <!-- CSS génériques -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/footer.css">
+
+    <!-- CSS spécifique à la page -->
+    
+    <script src="js/menu.js"></script>
+    <link rel="shortcut icon" type="image/png" href="favicon.ico">
+
+    <title>mascarade-bdx.fr</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+    <body>
+        <header>
+    <div class="mainTitleBlock">
+        <h1><img class="logo" src="img/deco/logotype-blanc.png">
+        </h1>
+        <div class="menulangues">
+            <form method="get">
+                <select name="lang" id="lang" onchange="this.form.submit()">
+                    <option value="fr" selected>fr</option><option value="en">en</option><option value="nl">nl</option>                </select>
+
+                            </form>
+        </div>
+    </div>
+    <!--<div class="lien-live"><a href="https://stream.l45.be/#kievu_mid" target="_blank" rel="noopener noreferrer">LIVE</a></div>-->
+    <div class="menu">
+        <nav class="responsiveMenu" id="responsiveMenu">
+<a href="javascript:void(0);" class="icon" onclick="responsiveMenu()">
+        <span id="menuIcon">☰</span> <!-- Icône du menu -->
+    </a>
+     <a class='itemMenu' href=?page=home&lang=fr>Accueil</a><a class='itemMenu' href=?page=events&lang=fr>Événements</a><a class='itemMenu' href=?page=social&lang=fr>Social</a><a class='itemMenu' href=?page=contact&lang=fr>Contact</a>
+</nav>    </div>
+</header><main>
+<h2>Bienvenue sur le site Mascarade</h2>
+<p>Le site est en cours de construction. Merci de votre visite !</p>
+</main>
+<footer>
+    <div class="footerNav">
+        <nav class="navfooterbloc">
+            <h2>Contacts</h2>
+            <address>
+                <a class="maillink" href="mailto:info@bathyscaphe.be">info@bathyscaphe.be</a>
+                <a class="phonelink" href="tel:+32485966694">+32(0)485 96 66 94</a>
+                <div class="situationlink">rue Dieudonné Lefèvre, 215<br> 1020 Brussels - Belgium</div>
+            </address>
+        </nav>
+        <nav class="navfooterbloc">
+            <h2>Menu</h2>
+             <a class='itemMenu' href=?page=home&lang=fr>Accueil</a><a class='itemMenu' href=?page=events&lang=fr>Événements</a><a class='itemMenu' href=?page=social&lang=fr>Social</a><a class='itemMenu' href=?page=contact&lang=fr>Contact</a>        </nav>
+    </div>
+
+    <nav id="menuRS" class="nav-rs">
+        
+                <a href="https://www.facebook.com/thisismascarade" title="facebook" target="_blank" rel="noopener noreferrer">
+                    <div class="rs facebook" aria-hidden="true"></div>
+                    <span class="sr-only">facebook</span>
+                </a>
+            
+                <a href="https://www.instagram.com/thisismascarade/" title="instagram" target="_blank" rel="noopener noreferrer">
+                    <div class="rs instagram" aria-hidden="true"></div>
+                    <span class="sr-only">instagram</span>
+                </a>
+                </nav>
+
+    <img class="footer-logo" src="img/deco/logo.svg" alt="Logo du site">
+</footer>    </body>
+</html>
+

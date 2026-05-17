@@ -1,0 +1,116 @@
+/* =====================================================
+   MASQUERADE — MENU PRINCIPAL
+   Épuré, centré, responsive
+===================================================== */
+
+/* ---------------------------------
+   Conteneur principal du menu
+---------------------------------- */
+
+.menu {
+  background: var(--color-primary);
+  padding: 0.5rem 0; /* Un peu d'air vertical */
+}
+
+.responsiveMenu {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------------------------------
+   Liens du menu (Desktop)
+---------------------------------- */
+
+.itemMenu {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-base);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+
+  padding: 1rem 1.5rem;
+  position: relative;
+  transition: color var(--transition);
+}
+
+.itemMenu:hover {
+  color: white;
+}
+
+/* Soulignement animé au survol */
+.itemMenu::after {
+  content: "";
+  position: absolute;
+  bottom: 0.7rem; /* Position juste sous le texte */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent); /* L'orange pour l'énergie */
+  transition: width var(--transition);
+}
+
+.itemMenu:hover::after {
+  width: 40%; /* Un soulignement plus court et chic */
+}
+
+/* ---------------------------------
+   État actif (page actuelle)
+---------------------------------- */
+/* Recommandation pour l'autre IA : ajouter la classe .active au lien de la page courante */
+
+.itemMenu.active {
+  color: white;
+  font-weight: 600;
+}
+
+.itemMenu.active::after {
+  width: 40%;
+  background-color: var(--color-accent);
+}
+
+/* ---------------------------------
+   Icône Hamburger (masquée sur desktop)
+---------------------------------- */
+
+.icon {
+  display: none;
+  color: white;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+/* =================================
+   VERSION MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+  .responsiveMenu {
+    justify-content: flex-end; /* Aligne l'icône à droite */
+    flex-wrap: wrap; /* Permet aux liens de passer à la ligne */
+  }
+
+  .itemMenu {
+    display: none; /* Cache les liens par défaut */
+    width: 100%;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .icon {
+    display: block; /* Affiche l'icône hamburger */
+  }
+
+  /* Quand le JS ajoute la classe .responsive */
+  .responsiveMenu.responsive .itemMenu {
+    display: block; /* Affiche les liens */
+  }
+}

@@ -1,0 +1,192 @@
+/* =====================================================
+   NUCLEUS — FOOTER
+   Structure souple — modifier les variables pour reconfigurer
+===================================================== */
+
+/* ---------------------------------
+   Variables locales footer
+---------------------------------- */
+
+:root {
+  --footer-bg:          var(--color-primary);
+  --footer-color:       white;
+  --footer-link-color:  rgba(255, 255, 255, 0.8);
+  --footer-logo-height: 64px;
+  --footer-padding:     var(--spacing-lg) var(--spacing-md);
+  --footer-gap:         var(--spacing-lg);
+  --footer-col-min:     200px;
+}
+
+/* ---------------------------------
+   Block principal
+---------------------------------- */
+
+.site-footer {
+  background: var(--footer-bg);
+  color:      var(--footer-color);
+  padding:    var(--footer-padding);
+  display:    flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:        var(--footer-gap);
+}
+
+/* ---------------------------------
+   Grille des blocs
+   Auto-répartition selon l'espace disponible
+---------------------------------- */
+
+.site-footer__grid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--footer-col-min), 1fr));
+  gap:                   var(--footer-gap);
+  width:                 100%;
+  max-width:             var(--width-wide);
+}
+
+/* ---------------------------------
+   Bloc générique
+---------------------------------- */
+
+.site-footer__bloc {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--spacing-xs);
+}
+
+.site-footer__title {
+  font-family:   var(--font-title);
+  font-size:     var(--fs-sm);
+  font-weight:   600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color:         var(--footer-color);
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.site-footer__text {
+  color:     var(--footer-link-color);
+  font-size: var(--fs-sm);
+  margin:    0;
+}
+
+.site-footer__link {
+  color:           var(--footer-link-color);
+  font-size:       var(--fs-sm);
+  text-decoration: none;
+  transition:      color var(--transition);
+}
+
+.site-footer__link:hover {
+  color: white;
+}
+
+/* ---------------------------------
+   Menu footer
+   Vertical, discret — différent du header
+---------------------------------- */
+
+.site-footer__bloc .nav__link {
+  color:           var(--footer-link-color);
+  font-size:       var(--fs-sm);
+  text-transform:  none;
+  letter-spacing:  0;
+  font-weight:     400;
+  padding:         0.3rem 0;
+  text-decoration: none;
+  transition:      color var(--transition);
+  position:        static;
+}
+
+.site-footer__bloc .nav__link::after {
+  display: none;
+}
+
+.site-footer__bloc .nav__link:hover {
+  color: white;
+}
+
+/* ---------------------------------
+   Réseaux sociaux
+---------------------------------- */
+
+.site-footer__rs {
+  display:     flex;
+  align-items: center;
+  gap:         var(--spacing-sm);
+}
+
+.rs-link {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           40px;
+  height:          40px;
+  border-radius:   50%;
+  border:          1px solid rgba(255, 255, 255, 0.3);
+  color:           var(--footer-link-color);
+  text-decoration: none;
+  transition:      all var(--transition);
+}
+
+.rs-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  color: white;
+}
+
+.rs-icon {
+  width:  20px;
+  height: 20px;
+  background-size:     contain;
+  background-repeat:   no-repeat;
+  background-position: center;
+}
+
+/* Icônes RS — remplacer par les SVG disponibles */
+.rs-icon--facebook {
+  background-image: url("../img/deco/icon-facebook.svg");
+}
+
+.rs-icon--instagram {
+  background-image: url("../img/deco/icon-instagram.svg");
+}
+
+/* ---------------------------------
+   Logo centré
+---------------------------------- */
+
+.site-footer__logo {
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-footer__logo img {
+  height:  var(--footer-logo-height);
+  width:   auto;
+  opacity: 0.85;
+  transition: opacity var(--transition);
+}
+
+.site-footer__logo img:hover {
+  opacity: 1;
+}
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+  .site-footer {
+    padding: var(--spacing-md) var(--spacing-sm);
+    gap:     var(--spacing-md);
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,361 @@
+/* articles.css */
+/* articles.css */
+
+/* On outrepasse la limite de admin.css pour cette page */
+main {
+    max-width: 95% !important;
+    /* Utilise presque tout l'écran */
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* On ajuste le conteneur de l'éditeur pour qu'il soit flexible */
+.admin-editor-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* L'espace de travail prend tout le reste */
+#blocks-workspace {
+    flex-grow: 1;
+    /* Il "pousse" pour prendre tout l'espace disponible */
+}
+
+/* La sidebar reste fixe à gauche pour ne pas s'étirer bizarrement */
+.admin-sidebar {
+    width: 300px;
+    /* On l'élargit un peu pour plus de confort */
+    flex-shrink: 0;
+}
+
+/* On augmente le confort visuel sur grand écran */
+.block-body textarea {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Le titre principal peut maintenant s'étendre fièrement */
+.main-title-input {
+    font-size: 2.5rem;
+}
+
+
+
+
+
+
+.editor-actions-bar {
+    position: sticky;
+    bottom: 20px;
+    /* Distance par rapport au bas de la fenêtre */
+    z-index: 900;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    /* Effet de flou moderne */
+    padding: 15px 25px;
+    margin-top: 40px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style des contrôles d'ajout */
+.add-block-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.add-block-controls select {
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    background: white;
+}
+
+/* Titre principal de l'article */
+.main-title-input {
+    font-size: 2rem;
+    font-weight: 800;
+    border: none;
+    border-bottom: 2px solid var(--border-soft);
+    padding: 10px 0;
+    margin-bottom: 5px;
+    width: 100%;
+    background: transparent;
+    color: var(--text-dark);
+    transition: border-color 0.3s;
+}
+
+.main-title-input:focus {
+    outline: none;
+    border-bottom-color: var(--primary-color);
+}
+
+/* Petit texte sous le titre pour l'ID généré */
+.id-preview-container {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+#generated-id {
+    font-family: monospace;
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Onglets de langue */
+.lang-tabs-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg-light);
+    /* Assure-toi que c'est opaque */
+    padding: 10px 0;
+    margin-bottom: 20px;
+    /* On force l'affichage au-dessus de tout */
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.lang-tabs-container {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid var(--primary-color);
+    /* Ligne de base pour l'onglet actif */
+}
+
+.tab-btn {
+    border: 1px solid var(--border-soft);
+    border-bottom: none;
+    background: #e5e7eb;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: var(--radius) var(--radius) 0 0;
+    transition: all 0.2s;
+    margin-bottom: -2px;
+    /* Pour chevaucher la ligne de base */
+}
+
+.tab-btn.active {
+    background: var(--bg-white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--bg-white);
+    /* "Ouvre" l'onglet sur le contenu */
+}
+
+.tab-btn:hover {
+    background: #d1d5db;
+}
+
+/* 2. Style des blocs (Le style "Carte" de tes formulaires) */
+
+.block-item {
+    background-color: var(--bg-white);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    /* 8px */
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: 25px;
+    border: 1px solid var(--border-soft);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.block-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Spécificité pour le bloc de type titre à l'intérieur du workspace */
+.block-item[data-type="title"] {
+    background-color: #fcfcfc;
+    border-left: 4px solid var(--primary-color);
+    /* Marque distinctive */
+}
+
+.block-item[data-type="title"] input[type="text"] {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.block-item[data-type="link"] {
+    border-left: 4px solid #10b981;
+    /* Une couleur verte pour les liens/actions */
+}
+
+.url-field-container input {
+    font-family: monospace;
+    color: var(--primary-color);
+}
+
+/* 3. Header du bloc (Type et suppression) */
+.block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.block-type-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 4. Champs de saisie (Inspiré de ton admin.css) */
+.block-body input[type="text"],
+.block-body textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: #f9f9f9;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.block-body input[type="text"]:focus,
+.block-body textarea:focus {
+    background-color: #fff;
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+/* 5. Sidebar (Articles existants) */
+.admin-sidebar {
+    width: 250px;
+    background: var(--bg-white);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    align-self: flex-start;
+}
+
+.admin-sidebar h4 {
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    font-size: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+}
+
+.admin-sidebar li {
+    margin-bottom: 8px;
+}
+
+.admin-sidebar a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: block;
+    padding: 5px;
+    border-radius: var(--radius);
+    transition: background 0.2s;
+}
+
+.admin-sidebar a:hover {
+    background: var(--bg-light);
+    color: var(--primary-color);
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: stretch;
+    /* Pour que les deux zones fassent la même hauteur */
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Zone du lien : elle occupe tout l'espace restant */
+.item-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.load-article-link {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    flex-grow: 1;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Coupe le texte trop long proprement */
+}
+
+
+.load-article-link:hover {
+    background-color: #f1f5f9;
+    /* Bleu très pâle pour l'édition */
+    color: #0284c7;
+}
+
+/* Zone d'action : isolée par une bordure gauche */
+.item-actions {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #e2e8f0;
+    /* La barrière visuelle */
+    background: #fafafa;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    /* Léger gris au survol de la ligne */
+}
+
+
+.btn-delete-file {
+    padding: 0 12px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+    filter: grayscale(1);
+    /* Poubelle grise par défaut */
+    transition: all 0.2s;
+}
+
+/* Au survol de la zone de suppression uniquement */
+.btn-delete-file:hover {
+    background-color: #fee2e2;
+    /* Fond rouge très léger */
+    filter: grayscale(0);
+    /* La poubelle reprend ses couleurs */
+    transform: scale(1.1);
+}
+
+/* Apparition au survol de la ligne */
+.sidebar-item:hover .btn-delete-file {
+    opacity: 1;
+    transform: scale(1);
+}

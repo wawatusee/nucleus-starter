@@ -1,0 +1,23 @@
+{
+    "Main_menu": [
+        {
+            "page": "accueil",
+            "titre": {
+                "fr": "Accueil",
+                "nl": "Home",
+                "en": "Home",
+                "tr": "Ana Sayfa"
+            }
+        }
+    ],
+    "RS_menu": [
+        {
+            "page": "https://www.facebook.com/",
+            "titre": "facebook"
+        },
+        {
+            "page": "https://www.instagram.com/",
+            "titre": "instagram"
+        }
+    ]
+}

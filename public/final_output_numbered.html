@@ -1,0 +1,90 @@
+   1 | <!DOCTYPE html>
+   2 | <html lang="fr" prefix="og:http://ogp.me/ns#">
+   3 |     <head>
+   4 |     <meta charset="UTF-8">
+   5 |     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   6 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   7 |     
+   8 |     <meta name="keywords" content="">
+   9 |     <meta property="og:title" content="mascarade-bdx.fr">
+  10 |     <meta property="og:type" content="article" />
+  11 | 
+  12 |     <meta property="og:image:width" content="1090">
+  13 |     <meta property="og:image:height" content="177">
+  14 |     <meta property="og:site_name" content="mascarade-bdx.fr">
+  15 | 
+  16 |     <!-- CSS génériques -->
+  17 |     <link rel="stylesheet" href="css/style.css">
+  18 |     <link rel="stylesheet" href="css/header.css">
+  19 |     <link rel="stylesheet" href="css/menu.css">
+  20 |     <link rel="stylesheet" href="css/main.css">
+  21 |     <link rel="stylesheet" href="css/footer.css">
+  22 | 
+  23 |     <!-- CSS spécifique à la page -->
+  24 |     
+  25 |     <script src="js/menu.js"></script>
+  26 |     <link rel="shortcut icon" type="image/png" href="favicon.ico">
+  27 | 
+  28 |     <title>mascarade-bdx.fr</title>
+  29 | 
+  30 |     <!-- Leaflet -->
+  31 |     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  32 |     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  33 | </head>
+  34 |     <body>
+  35 |         <header>
+  36 |     <div class="mainTitleBlock">
+  37 |         <h1><img class="logo" src="img/deco/logotype-blanc.png">
+  38 |         </h1>
+  39 |         <div class="menulangues">
+  40 |             <form method="get">
+  41 |                 <select name="lang" id="lang" onchange="this.form.submit()">
+  42 |                     <option value="fr" selected>fr</option><option value="en">en</option><option value="nl">nl</option>                </select>
+  43 | 
+  44 |                             </form>
+  45 |         </div>
+  46 |     </div>
+  47 |     <!--<div class="lien-live"><a href="https://stream.l45.be/#kievu_mid" target="_blank" rel="noopener noreferrer">LIVE</a></div>-->
+  48 |     <div class="menu">
+  49 |         <nav class="responsiveMenu" id="responsiveMenu">
+  50 | <a href="javascript:void(0);" class="icon" onclick="responsiveMenu()">
+  51 |         <span id="menuIcon">☰</span> <!-- Icône du menu -->
+  52 |     </a>
+  53 |      <a class='itemMenu' href=?page=home&lang=fr>Accueil</a><a class='itemMenu' href=?page=events&lang=fr>Événements</a><a class='itemMenu' href=?page=social&lang=fr>Social</a><a class='itemMenu' href=?page=contact&lang=fr>Contact</a>
+  54 | </nav>    </div>
+  55 | </header><main>
+  56 | <h2>Bienvenue sur le site Mascarade</h2>
+  57 | <p>Le site est en cours de construction. Merci de votre visite !</p>
+  58 | </main>
+  59 | <footer>
+  60 |     <div class="footerNav">
+  61 |         <nav class="navfooterbloc">
+  62 |             <h2>Contacts</h2>
+  63 |             <address>
+  64 |                 <a class="maillink" href="mailto:info@bathyscaphe.be">info@bathyscaphe.be</a>
+  65 |                 <a class="phonelink" href="tel:+32485966694">+32(0)485 96 66 94</a>
+  66 |                 <div class="situationlink">rue Dieudonné Lefèvre, 215<br> 1020 Brussels - Belgium</div>
+  67 |             </address>
+  68 |         </nav>
+  69 |         <nav class="navfooterbloc">
+  70 |             <h2>Menu</h2>
+  71 |              <a class='itemMenu' href=?page=home&lang=fr>Accueil</a><a class='itemMenu' href=?page=events&lang=fr>Événements</a><a class='itemMenu' href=?page=social&lang=fr>Social</a><a class='itemMenu' href=?page=contact&lang=fr>Contact</a>        </nav>
+  72 |     </div>
+  73 | 
+  74 |     <nav id="menuRS" class="nav-rs">
+  75 |         
+  76 |                 <a href="https://www.facebook.com/thisismascarade" title="facebook" target="_blank" rel="noopener noreferrer">
+  77 |                     <div class="rs facebook" aria-hidden="true"></div>
+  78 |                     <span class="sr-only">facebook</span>
+  79 |                 </a>
+  80 |             
+  81 |                 <a href="https://www.instagram.com/thisismascarade/" title="instagram" target="_blank" rel="noopener noreferrer">
+  82 |                     <div class="rs instagram" aria-hidden="true"></div>
+  83 |                     <span class="sr-only">instagram</span>
+  84 |                 </a>
+  85 |                 </nav>
+  86 | 
+  87 |     <img class="footer-logo" src="img/deco/logo.svg" alt="Logo du site">
+  88 | </footer>    </body>
+  89 | </html>
+  90 | 

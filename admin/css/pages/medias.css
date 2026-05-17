@@ -1,0 +1,10 @@
+/* =========================================================
+   medias.css — Spécifique à admin/pages/medias.php
+   Gestion des répertoires
+   ========================================================= */
+
+/* Nom de répertoire en mono dans la sidebar */
+.admin-sidebar .sidebar-item .item-main {
+    font-family: var(--admin-font-mono);
+    font-size: .85rem;
+}
