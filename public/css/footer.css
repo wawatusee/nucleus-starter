@@ -11,7 +11,7 @@
   --footer-bg:          var(--color-primary);
   --footer-color:       white;
   --footer-link-color:  rgba(255, 255, 255, 0.8);
-  --footer-logo-height: 64px;
+  --footer-logo-height: 50px;
   --footer-padding:     var(--spacing-lg) var(--spacing-md);
   --footer-gap:         var(--spacing-lg);
   --footer-col-min:     200px;
@@ -126,7 +126,7 @@
   height:          40px;
   border-radius:   50%;
   border:          1px solid rgba(255, 255, 255, 0.3);
-  color:           var(--footer-link-color);
+  
   text-decoration: none;
   transition:      all var(--transition);
 }
@@ -134,7 +134,7 @@
 .rs-link:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: white;
-  color: white;
+  color: var(--color-accent);
 }
 
 .rs-icon {
@@ -145,14 +145,7 @@
   background-position: center;
 }
 
-/* Icônes RS — remplacer par les SVG disponibles */
-.rs-icon--facebook {
-  background-image: url("../img/deco/icon-facebook.svg");
-}
 
-.rs-icon--instagram {
-  background-image: url("../img/deco/icon-instagram.svg");
-}
 
 /* ---------------------------------
    Logo centré
@@ -164,17 +157,31 @@
   justify-content: center;
 }
 
-.site-footer__logo img {
-  height:  var(--footer-logo-height);
-  width:   auto;
-  opacity: 0.85;
-  transition: opacity var(--transition);
+/* Footer */
+.site-footer .decor-logo {
+    --logo-fill:   var(--color-accent);
+    --logo-stroke: var(--color-primary-dark);
 }
 
-.site-footer__logo img:hover {
-  opacity: 1;
+   .site-footer .decor-logo {
+    height: 50px;
+}
+.site-footer .decor-logo text {
+    display: none;
+}
+/*---------------------------------
+RS
+-----------------------------------*/
+.rs-link svg {
+    width:  24px;
+    height: 24px;
+    fill:   var(--footer-link-color);
+    transition: fill var(--transition);
 }
 
+.rs-link:hover svg {
+    fill: white;
+}
 /* =================================
    MOBILE
 ================================= */

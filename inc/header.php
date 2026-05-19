@@ -1,10 +1,13 @@
 <header class="site-header" style="display:flex;flex-direction:column;">
-  <div> 
-  <div class=" header-title"><?php echo $str_titleWebSite ?><a href="?page=<?= $pagesDuMenus[0] ?>"
-    class="site-header__logo" aria-label="Accueil">
-    <img src="img/deco/logo.svg" alt="<?= htmlspecialchars($str_titleWebSite) ?>">
-  </a></div>
-  </div>
+  <div>
+<div class="header-title">
+    <!--<?= htmlspecialchars($str_titleWebSite) ?>-->
+    <a href="?page=<?= $pagesDuMenus[0] ?>" class="site-header__logo" aria-label="Accueil">
+        <div class="decor-logo">
+            <?php echo file_get_contents(DIR_IMG_DECO . 'logo.svg'); ?>
+        </div>
+    </a>
+</div>
 
 
   <div style="display:flex; flex-direction: row;">
