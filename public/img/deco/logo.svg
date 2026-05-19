@@ -1,15 +1,17 @@
-<svg viewBox="0 0 220 50" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 240 70" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <path id="path1" d="M 50,0 55,50 100,50 Z"/>
+    <path id="bracket" d="M 25,5 H 8 V 65 H 25" />
   </defs>
   <g id="logo">
-    <use xlink:href="#path1" transform="translate(-45,0)"
-         style="fill: var(--logo-fill, #ff6600); stroke: var(--logo-stroke, #2c5eca); stroke-width:2;"/>
-    <use xlink:href="#path1" transform="matrix(-1,0,0,1,265,0)"
-         style="fill: var(--logo-fill, #ff6600); stroke: var(--logo-stroke, #2c5eca); stroke-width:2;"/>
-<text x="110" y="55%" text-anchor="middle" dominant-baseline="middle"
-      style="fill: var(--logo-text, #ff6600); font-family: verdana; font-size: 50px; letter-spacing: 2px;">
-    Titre
-</text>
+    <use xlink:href="#bracket" 
+         style="fill: none; stroke: var(--logo-stroke, #2c5eca); stroke-width: 6; stroke-linecap: square;" />
+    
+    <use xlink:href="#bracket" transform="matrix(-1,0,0,1,240,0)" 
+         style="fill: none; stroke: var(--logo-stroke, #2c5eca); stroke-width: 6; stroke-linecap: square;" />
+    
+    <text x="120" y="53%" text-anchor="middle" dominant-baseline="middle"
+          style="fill: var(--logo-fill, #2c5eca); stroke: var(--logo-text-stroke, #ff6600); stroke-width: 1.5; font-family: 'Arial Black', verdana, sans-serif; font-size: 46px; font-weight: bold; letter-spacing: 4px;">
+      LOGO
+    </text>
   </g>
 </svg>
