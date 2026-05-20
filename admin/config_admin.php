@@ -21,7 +21,7 @@ define('ADMIN_PAGES', [
     'articles',
     'medias',
     'medias_images',
-    "menus"
+    'menus'
 ]);
 
 // =========================================================
