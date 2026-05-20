@@ -1,0 +1,55 @@
+{
+    "type": "article",
+    "meta": {
+        "id": "par-defaut",
+        "created": "2026-05-20",
+        "updated": "2026-05-20",
+        "status": "draft"
+    },
+    "content": [
+        {
+            "type": "title",
+            "level": 2,
+            "data": {
+                "fr": "Titre par défaut",
+                "nl": "Mijn default titel",
+                "en": "My default title"
+            }
+        },
+        {
+            "type": "text",
+            "data": {
+                "fr": "Cet article est l'article par défaut, créez vos propres articles pour remplir le site.",
+                "nl": "De irste paragraaf",
+                "en": "This is the first default paragraph"
+            }
+        },
+        {
+            "type": "list",
+            "data": {
+                "fr": [
+                    "Créer les articles",
+                    "intégrer les articles à une page."
+                ],
+                "nl": [
+                    "Element1",
+                    "element2"
+                ],
+                "en": [
+                    "Go to the dashboard",
+                    "edit you one article",
+                    "insert your article in a page that youhave created"
+                ]
+            }
+        },
+        {
+            "type": "link",
+            "url": "https://help.com",
+            "data": {
+                "fr": "aide",
+                "nl": "Hulp",
+                "en": "Help"
+            }
+        }
+    ]
+}

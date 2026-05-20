@@ -276,3 +276,18 @@ button {
   }
 
 }
+/* ===============================
+   12. DÉCORATION — SVG INLINE
+================================ */
+
+.decor-logo {
+    --logo-fill:   var(--color-accent);
+    --logo-stroke: var(--color-primary-dark);
+    --logo-text:  var(--color-accent);/* white*/
+}
+
+.decor-logo svg {
+    width:  auto;
+    height: 100%;
+    display: block;
+}

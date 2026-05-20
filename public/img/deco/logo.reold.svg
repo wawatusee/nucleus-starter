@@ -1,0 +1,23 @@
+<svg
+   viewBox="0 0 101.86345 49.886684"
+   version="1.1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg">
+
+  <defs id="defs1">
+    <path
+       id="path1"
+       d="M 54.580941,2.735724 55.201661,48.782572 99.271761,48.538940 Z" />
+  </defs>
+
+  <g id="logo">
+    <use
+       xlink:href="#path1"
+       style="fill: var(--logo-fill, #ff6600); stroke: var(--logo-stroke, #2c5eca); stroke-width:2.1962;" />
+    <use
+       xlink:href="#path1"
+       transform="matrix(-1,0,0,1,101.86345,0)"
+       style="fill: var(--logo-fill, #ff6600); stroke: var(--logo-stroke, #2c5eca); stroke-width:2.1962;" />
+  </g>
+
+</svg>

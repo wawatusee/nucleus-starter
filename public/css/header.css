@@ -9,82 +9,94 @@
 ---------------------------------- */
 
 :root {
-  --header-direction:   row;
-  --header-justify:     space-between;
-  --header-align:       center;
-  --header-gap:         var(--spacing-sm);
-  --header-padding:     var(--spacing-xs) var(--spacing-md);
+  --header-direction: row;
+  --header-justify: space-between;
+  --header-align: center;
+  --header-gap: var(--spacing-sm);
+  --header-padding: var(--spacing-xs) var(--spacing-md);
   --header-logo-height: 52px;
-  --header-bg:          var(--color-primary);
+  --header-bg: var(--color-primary);
 }
 
 /* ---------------------------------
    Block principal
 ---------------------------------- */
 
+
 .site-header {
-  background:      var(--header-bg);
-  display:         flex;
-  flex-direction:  var(--header-direction);
+  background: var(--header-bg);
+  display: flex;
+  flex-direction: var(--header-direction);
   justify-content: var(--header-justify);
-  align-items:     var(--header-align);
-  gap:             var(--header-gap);
-  padding:         var(--header-padding);
-  width:           100%;
+  align-items: var(--header-align);
+  gap: var(--header-gap);
+  padding: var(--header-padding);
+  width: 100%;
 }
 
 /* ---------------------------------
    Logo
 ---------------------------------- */
+/* Header */
+.site-header .decor-logo {
+  --logo-fill: var(--color-accent);
+  --logo-stroke: var(--color-primary-dark);
+}
 
 .site-header__logo {
-  display:     flex;
+  display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
 .site-header__logo img {
-  height:     var(--header-logo-height);
-  width:      auto;
-  display:    block;
+  height: var(--header-logo-height);
+  width: auto;
+  display: block;
   transition: transform var(--transition);
 }
 
 .site-header__logo:hover img {
   transform: scale(1.02);
 }
+
 /* ---------------------------------
 Titre header
 -----------------------------------*/
-.header-title{
-  display: flex;
-  flex-direction: row-reverse;
-color: var(--color-accent);
-  font-size: 36px;
+.header-title {
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    width:           100%;
 }
+
+.site-header .decor-logo {
+    height: 60px;
+}
+
 
 /* ---------------------------------
    Nav
 ---------------------------------- */
 
 .site-nav {
-  display:     flex;
+  display: flex;
   align-items: center;
-  flex-wrap:   wrap;
-  gap:         0;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
 .nav__link {
-  color:           rgba(255, 255, 255, 0.85);
-  font-family:     var(--font-base);
-  font-weight:     500;
-  font-size:       var(--fs-sm);
-  text-transform:  uppercase;
-  letter-spacing:  1px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-base);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
   text-decoration: none;
-  padding:         1rem 1.5rem;
-  position:        relative;
-  transition:      color var(--transition);
+  padding: 1rem 1.5rem;
+  position: relative;
+  transition: color var(--transition);
 }
 
 .nav__link:hover {
@@ -93,13 +105,13 @@ color: var(--color-accent);
 
 /* Soulignement animé */
 .nav__link::after {
-  content:    "";
-  position:   absolute;
-  bottom:     0.7rem;
-  left:       50%;
-  transform:  translateX(-50%);
-  width:      0;
-  height:     2px;
+  content: "";
+  position: absolute;
+  bottom: 0.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
   background: var(--color-accent);
   transition: width var(--transition);
 }
@@ -110,7 +122,7 @@ color: var(--color-accent);
 }
 
 .nav__link--active {
-  color:       white;
+  color: white;
   font-weight: 600;
 }
 
@@ -119,10 +131,11 @@ color: var(--color-accent);
 ---------------------------------- */
 
 .site-header__controls {
-  display:     flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  gap:         var(--spacing-sm);
-  flex-shrink: 0;
+  gap: var(--spacing-sm);
+  width: 100%;
 }
 
 /* ---------------------------------
@@ -130,18 +143,18 @@ color: var(--color-accent);
 ---------------------------------- */
 
 .lang-switcher {
-  display:     flex;
+  display: flex;
   align-items: center;
-  gap:         var(--spacing-xs);
+  gap: var(--spacing-xs);
 }
 
 .lang-switcher a {
-  color:           rgba(255, 255, 255, 0.7);
-  font-size:       var(--fs-xs);
-  font-weight:     500;
-  letter-spacing:  1px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 1px;
   text-decoration: none;
-  transition:      color var(--transition);
+  transition: color var(--transition);
 }
 
 .lang-switcher a:hover {
@@ -149,8 +162,8 @@ color: var(--color-accent);
 }
 
 .lang-switcher a.lang--active {
-  color:         white;
-  font-weight:   600;
+  color: white;
+  font-weight: 600;
   border-bottom: 1px solid var(--color-accent);
 }
 
@@ -159,23 +172,23 @@ color: var(--color-accent);
 ---------------------------------- */
 
 .burger {
-  display:         none;
-  flex-direction:  column;
+  display: none;
+  flex-direction: column;
   justify-content: center;
-  gap:             5px;
-  background:      transparent;
-  border:          none;
-  cursor:          pointer;
-  padding:         var(--spacing-xs);
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
 }
 
 .burger__bar {
-  display:       block;
-  width:         24px;
-  height:        2px;
-  background:    white;
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: white;
   border-radius: 2px;
-  transition:    transform var(--transition), opacity var(--transition);
+  transition: transform var(--transition), opacity var(--transition);
 }
 
 .burger--open .burger__bar:nth-child(1) {
@@ -198,15 +211,15 @@ color: var(--color-accent);
 
   .site-header {
     flex-wrap: wrap;
-    padding:   var(--spacing-sm);
+    padding: var(--spacing-sm);
   }
 
   .site-nav {
-    display:        none;
+    display: none;
     flex-direction: column;
-    width:          100%;
-    border-top:     1px solid rgba(255, 255, 255, 0.1);
-    order:          3;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    order: 3;
   }
 
   .site-nav--open {
@@ -214,9 +227,9 @@ color: var(--color-accent);
   }
 
   .nav__link {
-    width:         100%;
-    text-align:    center;
-    padding:       1.2rem 1rem;
+    width: 100%;
+    text-align: center;
+    padding: 1.2rem 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
@@ -228,6 +241,11 @@ color: var(--color-accent);
     display: flex;
   }
 
-  .site-header__logo { order: 1; }
-  .site-header__controls { order: 2; }
+  .site-header__logo {
+    order: 1;
+  }
+
+  .site-header__controls {
+    order: 2;
+  }
 }

@@ -53,7 +53,7 @@ $menuFooter_view  = $menusViewFooter->getViewMainMenu($menuMain);
   </div>
 
   <!-- Réseaux sociaux -->
-  <nav class="site-footer__rs" aria-label="Réseaux sociaux">
+  <!--<nav class="site-footer__rs" aria-label="Réseaux sociaux">
     <?php foreach ($menuRS as $item) :
       $href  = htmlspecialchars($item->page);
       $label = htmlspecialchars($item->titre);
@@ -66,11 +66,32 @@ $menuFooter_view  = $menusViewFooter->getViewMainMenu($menuMain);
         <span class="sr-only"><?= $label ?></span>
       </a>
     <?php endforeach; ?>
-  </nav>
+  </nav>-->
+  <nav class="site-footer__rs" aria-label="Réseaux sociaux">
+    <?php foreach ($menuRS as $item) :
+        $href  = htmlspecialchars($item->page);
+        $label = htmlspecialchars($item->titre);
+        $svgPath = DIR_IMG_DECO . 'rs/' . $label . '.svg';
+    ?>
+        <a class="rs-link rs-link--<?= $label ?>" href="<?= $href ?>"
+           title="<?= $label ?>"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="<?= $label ?>">
+            <?php if (file_exists($svgPath)) : ?>
+                <?php echo file_get_contents($svgPath); ?>
+            <?php else : ?>
+                <span class="sr-only"><?= $label ?></span>
+            <?php endif; ?>
+        </a>
+    <?php endforeach; ?>
+</nav>
 
   <!-- Logo -->
-  <div class="site-footer__logo">
-    <img src="img/deco/logo.svg" alt="<?= htmlspecialchars($str_titleWebSite) ?>">
-  </div>
+<div class="site-footer__logo">
+    <div class="decor-logo">
+        <?php echo file_get_contents(DIR_IMG_DECO . 'logo.svg'); ?>
+    </div>
+</div>
 
 </footer>
