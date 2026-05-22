@@ -3,7 +3,7 @@
     "meta": {
         "id": "par-defaut",
         "created": "2026-05-20",
-        "updated": "2026-05-20",
+        "updated": "2026-05-22",
         "status": "draft"
     },
     "content": [
@@ -29,7 +29,11 @@
             "data": {
                 "fr": [
                     "Créer les articles",
-                    "intégrer les articles à une page."
+                    "une page",
+                    "intégrer les articles à une page",
+                    "d'une autre façon créer une galerie",
+                    "intégrer cette galerie à une page",
+                    "différentes options pour les types de galeries"
                 ],
                 "nl": [
                     "Element1",
@@ -38,7 +42,8 @@
                 "en": [
                     "Go to the dashboard",
                     "edit you one article",
-                    "insert your article in a page that youhave created"
+                    "edit one page",
+                    "insert your article you have just created in a page that you have created to"
                 ]
             }
         },
