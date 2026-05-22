@@ -1,0 +1,19 @@
+En comparant l'arborescence du starter avec ce qu'on a produit, voici ce qui doit être mis à jour :
+Fichiers à remplacer — modifiés depuis la dernière version du starter :
+src/core/page_renderer.php      ← renderGalleryRef() complet avec mode simple/riche
+public/js/lightbox.js           ← à créer — navigation flèches + clavier
+public/css/main.css             ← galerie + lightbox CSS
+Fichiers à créer — absents du starter :
+json/galleries/                 ← dossier à créer — vide avec .gitkeep
+public/js/lightbox.js           ← nouveau fichier
+Fichiers à vérifier — probablement ok mais à confirmer :
+inc/head.php                    ← doit charger lightbox.js globalement
+config/config.php               ← doit contenir PUBLIC_IMG_CONTENT
+Vestiges présents dans le starter à supprimer :
+public/css/menu.css             ← fusionné dans header.css
+admin/js/article_editor.old.js
+admin/js/page_builder.old.js
+admin/src/image_uploader.class.old.php
+admin/pages/articles.old.php
+admin/css/pages/contacts.css
+admin/src/model/config_model.php ← doublon

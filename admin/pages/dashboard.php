@@ -21,6 +21,9 @@
         <li>
             <a href="index.php?page=menus">Gérer les menus</a>
         </li>
+                <li>
+            <a href="index.php?page=galleries">Gérer les galleries</a>
+        </li>
     </ul>
 
 </section>

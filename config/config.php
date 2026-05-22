@@ -15,6 +15,7 @@ define('DIR_IMG_DECO',    DIR_IMG . 'deco/');
 // =========================================================
 define('PUBLIC_PATH',     '/public/');
 define('PUBLIC_IMG',      PUBLIC_PATH . 'img/');
+define('PUBLIC_IMG_CONTENT', PUBLIC_IMG . 'content/');
 
 // =========================================================
 // MODÈLES

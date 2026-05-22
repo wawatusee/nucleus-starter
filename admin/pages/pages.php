@@ -2,12 +2,15 @@
 // Fragment admin — chargé par inc/main.php
 // Éditeur de layouts de pages
 
-$targetDir    = JSON_PAGES_DIR;
-$galleriesDir = DIR_IMG_CONTENT . 'galleries/';
-
+$targetDir = JSON_PAGES_DIR;
 $galleryFolders = [];
-if (is_dir($galleriesDir)) {
-    $galleryFolders = array_values(array_diff(scandir($galleriesDir), ['..', '.', 'thumbs', 'original']));
+if (is_dir(JSON_GALLERIES_DIR)) {
+    $files = array_diff(scandir(JSON_GALLERIES_DIR), ['..', '.']);
+    foreach ($files as $file) {
+        if (str_ends_with($file, '.json')) {
+            $galleryFolders[] = str_replace('.json', '', $file);
+        }
+    }
 }
 
 $files = [];
@@ -21,10 +24,11 @@ if (is_dir($targetDir)) {
         <h4>Pages du site (Layout)</h4>
         <ul id="file-list">
             <?php foreach ($files as $file):
-                if (!str_contains($file, '.json')) continue;
-                $pageId  = str_replace('.json', '', $file);
-                $hasPhp  = file_exists(ROOT_PATH . 'inc/pages/' . $pageId . '.php');
-            ?>
+                if (!str_contains($file, '.json'))
+                    continue;
+                $pageId = str_replace('.json', '', $file);
+                $hasPhp = file_exists(ROOT_PATH . 'inc/pages/' . $pageId . '.php');
+                ?>
                 <li class="sidebar-item">
                     <div class="item-main">
                         <a href="#" class="load-page-link" data-filename="<?= $file ?>">
@@ -73,42 +77,38 @@ if (is_dir($targetDir)) {
         </div>
     </section>
 </div>
-
 <script src="js/page_builder.js"></script>
 <script>
-window.availableGalleries = <?= json_encode($galleryFolders) ?>;
+    window.availableGalleries = <?= json_encode($galleryFolders) ?>;
+    window.LANG_CODES = <?= json_encode($langCodes) ?>;
+    window.LANG_LABELS = <?= json_encode(array_column(ConfigModel::getLangs(), 'label', 'code')) ?>;
 
-// === CRÉATION FICHIER PHP ===
-document.getElementById('file-list').addEventListener('click', async (e) => {
-    const btn = e.target.closest('.btn-create-php');
-    if (!btn) return;
+    // === CRÉATION FICHIER PHP ===
+    document.getElementById('file-list').addEventListener('click', async (e) => {
+        const btn = e.target.closest('.btn-create-php');
+        if (!btn) return;
 
-    const pageId = btn.dataset.pageid;
-    if (!confirm(`Créer inc/pages/${pageId}.php ?`)) return;
+        const pageId = btn.dataset.pageid;
+        if (!confirm(`Créer inc/pages/${pageId}.php ?`)) return;
 
-    try {
-        const res    = await fetch('api/create_page_file.php', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ id: pageId })
-        });
-        const result = await res.json();
+        try {
+            const res = await fetch('api/create_page_file.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: pageId })
+            });
+            const result = await res.json();
 
-        if (result.success) {
-            // Remplacer le bouton par le checkmark
-            btn.replaceWith(Object.assign(
-                document.createElement('span'),
-                {
-                    className: 'php-exists',
-                    title:     `${result.file} créé`,
-                    textContent: '✓'
-                }
-            ));
-        } else {
-            alert('Erreur : ' + (result.error || 'inconnue'));
+            if (result.success) {
+                btn.replaceWith(Object.assign(
+                    document.createElement('span'),
+                    { className: 'php-exists', title: `${result.file} créé`, textContent: '✓' }
+                ));
+            } else {
+                alert('Erreur : ' + (result.error || 'inconnue'));
+            }
+        } catch (e) {
+            alert('Erreur : ' + e.message);
         }
-    } catch (e) {
-        alert('Erreur : ' + e.message);
-    }
-});
+    });
 </script>
