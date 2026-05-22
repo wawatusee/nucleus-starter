@@ -1,0 +1,37 @@
+{
+    "type": "gallery_ref",
+    "folder": "home",
+    "title": {
+        "fr": "premieregalerie",
+        "nl": "",
+        "en": ""
+    },
+    "images": [
+        {
+            "src": "20260207-152818.jpg",
+            "alt": {
+                "fr": "text alternatif en français",
+                "nl": "alternatif scrijf nederlands",
+                "en": "alternative text english"
+            },
+            "caption": {
+                "fr": "Salle de l'étage du botanique",
+                "nl": "hight room botanik",
+                "en": "upstrair room bota"
+            }
+        },
+        {
+            "src": "20260207-152822.jpg",
+            "alt": {
+                "fr": "alternative text english",
+                "nl": "alternatif scrijf nederlands",
+                "en": "alternative text english"
+            },
+            "caption": {
+                "fr": "la même de plus près",
+                "nl": "samen maar proxi",
+                "en": "The same nearer"
+            }
+        }
+    ]
+}
