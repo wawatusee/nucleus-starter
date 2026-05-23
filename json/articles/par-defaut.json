@@ -3,7 +3,7 @@
     "meta": {
         "id": "par-defaut",
         "created": "2026-05-20",
-        "updated": "2026-05-22",
+        "updated": "2026-05-23",
         "status": "draft"
     },
     "content": [
@@ -55,6 +55,18 @@
                 "nl": "Hulp",
                 "en": "Help"
             }
+        },
+        {
+            "type": "image",
+            "src": "home/20260207-152831.jpg",
+            "alt": "Première image dans un article",
+            "data": []
+        },
+        {
+            "type": "image",
+            "src": "home/20260207-152841.jpg",
+            "alt": "test",
+            "data": []
         }
     ]
 }

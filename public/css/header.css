@@ -9,7 +9,7 @@
 ---------------------------------- */
 
 :root {
-  --header-direction: row;
+  --header-direction: column;
   --header-justify: space-between;
   --header-align: center;
   --header-gap: var(--spacing-sm);

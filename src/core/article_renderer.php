@@ -46,12 +46,12 @@ class ArticleRenderer
             case 'link':
                 self::renderLink($block, $lang);
                 break;
-            default:
-                break;
-
             case 'image':
                 self::renderImage($block);
                 break;
+            default:
+                break;
+
         }
     }
 
@@ -107,7 +107,7 @@ class ArticleRenderer
             return;
 
         $alt = $block['alt'] ?? '';
-        $imgPath = '/public/img/content/' . htmlspecialchars($src);
+        $imgPath = PUBLIC_IMG_CONTENT . htmlspecialchars($src);
 
         echo '<img'
             . ' class="nucleus-image"'

@@ -10,12 +10,13 @@
 // === CONFIGURATION ===
 const configEl = document.getElementById('editor-langs');
 const SUPPORTED_LANGS = JSON.parse(configEl.dataset.config);
+const PUBLIC_CONTENT = configEl.dataset.publicContent;
 const API_BASE = 'api/';
 
 let activeLang = 'fr';
 let originalCreationDate = null;
 let currentFilename = null;
-
+console.log('PUBLIC_CONTENT =', PUBLIC_CONTENT);
 // === TEMPLATES DES BLOCS ===
 const BlockTemplates = {
     title: (id, data = null) => createBlockWrapper(id, 'title', 'Titre (H2)', `
@@ -45,7 +46,7 @@ const BlockTemplates = {
         <label class="field-label">Texte du lien</label>
         ${generateLangInputs(id, 'input', 'Texte du lien', data)}
     `),
-    // Dans BlockTemplates — ajouter après link:
+
     image: (id, data = null) => createBlockWrapper(id, 'image', 'Image', `
     <div class="field-group">
         <label>Chemin de l'image</label>
@@ -60,7 +61,7 @@ const BlockTemplates = {
         <input type="text" class="block-alt" placeholder="Description de l'image"
                value="${escapeHtml(data?.alt || '')}">
     </div>
-    ${data?.src ? `<img src="/public/img/content/${escapeHtml(data.src)}"
+    ${data?.src ? `<img src="${PUBLIC_CONTENT}${escapeHtml(data.src)}"
                         style="max-width:200px; margin-top:8px; border-radius:4px;">` : ''}
 `)
 };
@@ -562,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             grid.innerHTML = '';
             data.images.forEach(filename => {
-                const src = `/public/img/content/${dir}/thumbs/${filename}`;
+                const src = `${PUBLIC_CONTENT}${dir}/thumbs/${filename}`;
                 const full = `${dir}/${filename}`;
 
                 const fig = document.createElement('figure');
@@ -579,12 +580,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 fig.addEventListener('mouseenter', () => fig.style.borderColor = '#1f4b99');
                 fig.addEventListener('mouseleave', () => fig.style.borderColor = 'transparent');
 
+
                 fig.addEventListener('click', () => {
                     if (window._targetSrcInput) {
                         window._targetSrcInput.value = full;
+
+                        // Mise à jour de la prévisualisation
+                        const blockItem = window._targetSrcInput.closest('.block-item');
+                        let preview = blockItem.querySelector('.block-img-preview');
+                        if (!preview) {
+                            preview = document.createElement('img');
+                            preview.className = 'block-img-preview';
+                            preview.style.cssText = 'max-width:200px; margin-top:8px; border-radius:4px; display:block;';
+                            window._targetSrcInput.closest('.field-group').appendChild(preview);
+                        }
+                        
+                        preview.src = `${PUBLIC_CONTENT}${full}`;
                     }
                     document.getElementById('media-browser').style.display = 'none';
                 });
+
 
                 grid.appendChild(fig);
             });

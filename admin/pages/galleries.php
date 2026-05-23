@@ -131,6 +131,7 @@ $langCodes = array_column($langs, 'code');
 const API        = 'api/';
 const LANG_CODES  = <?= json_encode($langCodes) ?>;
 const LANG_LABELS = <?= json_encode(array_column($langs, 'label', 'code')) ?>;
+const PUBLIC_CONTENT = <?= json_encode(PUBLIC_IMG_CONTENT) ?>;
 
 let currentFolder = null;
 
@@ -413,7 +414,7 @@ async function loadGalleryMediaImages(dir) {
             const fig = document.createElement('figure');
             fig.style.cssText = 'margin:0; cursor:pointer; border:2px solid transparent; border-radius:4px; overflow:hidden;';
             fig.innerHTML = `
-                <img src="/public/img/content/${dir}/thumbs/${filename}" alt="${filename}"
+                <img src="${PUBLIC_CONTENT}${dir}/thumbs/${filename}" alt="${filename}"
                      style="width:100%; height:90px; object-fit:cover; display:block;">
                 <figcaption style="font-size:0.7rem; padding:4px; text-align:center;
                     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">

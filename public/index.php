@@ -22,7 +22,7 @@ if (isset($_GET['page']) && in_array($_GET['page'], PAGE_ARRAY)) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars(APP_LANG, ENT_QUOTES, 'UTF-8') ?>" prefix="og:http://ogp.me/ns#">
+<html lang="<?= htmlspecialchars(APP_LANG, ENT_QUOTES, 'UTF-8') ?>" >
     <?php require_once "../inc/head.php"; ?>
     <body>
         <?php

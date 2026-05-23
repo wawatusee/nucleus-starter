@@ -28,6 +28,7 @@ Les choix structurants :
 ├── inc/                  ← Includes front (head, header, main, footer)
 ├── json/                 ← Base de données JSON
 │   ├── articles/
+│   ├── galleries/        ← Métadonnées des galeries (titre, alt, caption)
 │   ├── pages/
 │   └── menus.json
 ├── public/               ← Seul dossier exposé au web
@@ -36,12 +37,21 @@ Les choix structurants :
 │   ├── js/
 │   │   └── pages/        ← JS spécifique par page (chargé si existant)
 │   └── img/
-│       └── deco/         ← logo.svg et icônes
+│       ├── content/      ← Images de contenu, organisées par répertoire
+│       │   └── {dir}/thumbs/  ← Miniatures générées à l'upload
+│       └── deco/         ← logo.svg et icônes RS
 ├── src/                  ← Logique métier
 │   ├── core/
 │   ├── model/
 │   ├── utils/
 │   └── view/
+├── admin/                ← Interface d'administration
+│   ├── api/              ← Endpoints JSON (lecture/écriture)
+│   ├── css/
+│   ├── inc/              ← Layout admin (head, header, main, footer)
+│   ├── js/               ← Éditeurs JS
+│   ├── pages/            ← Fragments de pages admin
+│   └── src/              ← Classes utilitaires admin
 └── tests/                ← Scripts de test par composant
 ```
 
@@ -64,8 +74,37 @@ Supprimé : `json/contacts/`, `admin/api/get_contacts_list.php`, `admin/api/save
 
 Exception future : si un formulaire d'envoi de message est envisagé, il nécessitera un composant dédié avec traitement PHP.
 
+### `GalleryManager` abandonné
+L'ancienne classe `GalleryManager` (logique `STRTOUPPER`, `galleries_index.json`, dossiers `original/`) est remplacée par :
+- `admin/api/save_gallery.php` — écriture dans `json/galleries/{folder}.json`
+- `ImageUploader` — upload + redimensionnement + génération de miniature
+- `FolderManager` — création/renommage/suppression de répertoires physiques
+- `PageRenderer::renderGalleryRef()` — rendu côté front (mode riche JSON ou mode simple scan)
+
 ### Hiérarchie des titres
 Les articles commencent à `h2` — le `h1` appartient à la page, pas aux articles. Le niveau est piloté par le JSON (`"level": 2`). Le CSS qualifie par niveau HTML (`h2.nucleus-title`, `h3.nucleus-title`) pour préserver l'indépendance de chaque niveau.
+
+### Format `data` unifié
+Tous les blocs de contenu multilingue stockent leurs données sous la clé `data` :
+
+```json
+{ "type": "text", "data": { "fr": "Bonjour", "en": "Hello" } }
+{ "type": "list", "data": { "fr": ["A", "B"], "en": ["A", "B"] } }
+```
+
+Le type `image` fait exception — pas de `data` multilingue, uniquement `src` et `alt`.
+
+### Langues — structure `config.json`
+```json
+"langs": [
+    {"code": "fr", "label": "Français"},
+    {"code": "en", "label": "Anglais"}
+]
+```
+
+Les codes sont extraits par `array_column(ConfigModel::getLangs(), 'code')`.  
+Le premier élément est la langue par défaut.  
+Les endpoints API n'ont aucune langue codée en dur — tout passe par `ConfigModel`.
 
 ### Tests
 Pas de framework de test. Convention : un fichier `tests/test_*.php` par composant critique, écrit au moment de la correction. Zéro dépendance externe.
@@ -99,10 +138,10 @@ Fichiers de test existants :
 ### `config/config.php` — Config technique (dev uniquement)
 
 Responsabilités :
-- Définir toutes les constantes de chemins (`ROOT_PATH`, `DIR_JSON`, `DIR_IMG`...)
-- Charger et parser `config.json`
+- Définir toutes les constantes de chemins (`ROOT_PATH`, `DIR_JSON`, `DIR_IMG_CONTENT`...)
+- Charger et parser `config.json` via `ConfigModel`
 - Dériver les constantes (`SITE_TITLE`, `LANG_DEFAULT`, `PAGE_ARRAY`...)
-- Instancier les modèles (`ConfigModel`, `MenusModel`)
+- Instancier les modèles (`MenusModel`)
 
 **Convention de nommage des constantes :**
 
@@ -114,10 +153,10 @@ Responsabilités :
 
 ### `config/config_admin.php` — Config admin
 
-- Inclut `config.php` (l'admin connaît le front, pas l'inverse)
-- Session démarrée ici — jamais dans les endpoints ou pages
-- Ajoute : `ADMIN_PATH`, `JSON_PAGES_DIR`, `JSON_ARTICLES_DIR`, `GALLERIES_DIR`
-- Limites upload : 2 Mo, types `jpeg`, `png`, `webp`
+- Inclut `config.php` en premier — l'admin connaît le front, pas l'inverse
+- Session démarrée ici via `session_status()` — jamais dans les endpoints ou pages
+- Ajoute : `ADMIN_PATH`, `JSON_PAGES_DIR`, `JSON_ARTICLES_DIR`, `JSON_GALLERIES_DIR`, `GALLERIES_DIR`
+- Limites upload : `UPLOAD_MAX_SIZE` (2 Mo), `UPLOAD_ALLOWED_TYPES` (`jpeg`, `png`, `webp`)
 
 **Convention** : tout fichier admin charge `config_admin.php` en première ligne — jamais `config.php` directement.
 
@@ -217,8 +256,6 @@ if (in_array($page, PAGE_ARRAY)) {
 --header-bg:          var(--color-primary);
 ```
 
-Modifier ces variables pour reconfigurer sans réécrire.
-
 ### Logo
 Fichier : `public/img/deco/logo.svg`  
 Intégration : balise `<img>` — pas de SVG inline.
@@ -270,20 +307,21 @@ Animé en CSS pur (trois `<span>` → croix). Le JS toggle uniquement les classe
 
 ## Modèles — `src/model/`
 
-### `MenusModel`
-- Charge `json/menus.json`
-- `getMenu(string $menuType)` retourne `null` si le type est absent
-- Exceptions explicites si fichier absent ou JSON malformé
-- `tests/test_menus_model.php` ✓
-
 ### `ConfigModel`
 - Pattern cache statique — `loadConfig()` ne lit le fichier qu'une fois
-- `getLangs()` retourne `[['code' => 'fr', 'label' => 'Français']]`
+- `getLangs()` retourne `[['code' => 'fr', 'label' => 'Français'], ...]`
 - `getDefaultLang()` retourne `$langs[0]['code']`
 - `getTitle()` retourne le titre depuis `titleWebsite`
-- `clearCache()` disponible pour les tests
 - `isSinglePage()` supprimée
+- `clearCache()` disponible pour les tests
+- Utilisable en contexte front (`ROOT_PATH` défini par `config.php`) et admin (`config_admin.php`)
 - `tests/test_config_model.php` ✓
+
+### `MenusModel`
+- Charge `json/menus.json`
+- `getMenu(string $menuType)` retourne le tableau du menu demandé
+- Exceptions explicites si fichier absent ou JSON malformé
+- `tests/test_menus_model.php` ✓
 
 ---
 
@@ -308,22 +346,180 @@ new ViewMenu(APP_LANG, '')      // footer — pas de lien actif
 
 ## Core — `src/core/`
 
+### `BlockRegistry`
+- Définit les types de blocs : `title`, `text`, `list`, `link`, `image`
+- Chaque type déclare : `label`, `fields` (champs spécifiques), `dataType` (`string`, `array`, ou `null`)
+- `dataType: null` pour le type `image` — pas de champ `data` multilingue
+- `validate(array $block, array $langs)` — retourne `['valid', 'errors']`
+- `normalize(array $block, array $langs)` — applique les valeurs par défaut, initialise `data` pour les langues manquantes
+- La validation `data` est ignorée si `dataType === null`
+
+### `ComponentModel`
+- CRUD générique pour tout composant `{ type, meta, content[] }`
+- Utilisé pour les articles — extensible à d'autres types
+- `save()` appelle `BlockRegistry::normalize()` puis `BlockRegistry::validate()` sur chaque bloc
+- `listAll(bool $withMeta)` — sans meta : liste de fichiers ; avec meta : id, status, updated, blocksCount
+- `generateId(string $title)` — slugification sans dépendance externe
+
+### `PageModel`
+- CRUD pour les pages `{ type, meta, layout[] }`
+- Le layout référence des composants existants — pas de blocs directs
+- Types autorisés dans le layout : `article_ref`, `gallery_ref` (constante `ALLOWED_REF_TYPES`)
+- `article_ref` requiert `filename`, `gallery_ref` requiert `folder`
+- `createEmpty(string $title)` — crée une page vide avec id slugifié
+- `save_menus.php` appelle `createEmpty()` automatiquement pour les pages absentes
+
 ### `PageRenderer`
-- Charge `json/pages/{id}.json`
-- Dispatche chaque entrée du layout : `article_ref`, `gallery_ref`, `ui_component`
-- Instanciation : `new PageRenderer(APP_LANG)`
-- Erreurs loggées via `error_log` — silencieuses en prod, traçables
+- Charge `json/pages/{id}.json` et dispatche chaque entrée du layout
+- `article_ref` → `ArticleRenderer::render()`
+- `gallery_ref` → rendu inline avec deux modes :
+  - **Mode riche** : lit `json/galleries/{folder}.json` (titre ML, alt, caption par image)
+  - **Mode simple** : scan du dossier `thumbs/`
+- `ui_component` → `require` de `public/components/{name}.php`
+- Erreurs loggées via `error_log` — silencieuses en prod
 
 ### `ArticleRenderer`
-- Rendu statique par blocs : `title`, `text`, `list`, `link`
-- Méthode `t()` — fallback `?:` sur chaîne vide
-- Fallback : langue demandée → `fr` → `en` → chaîne vide
-- Bloc `image` non encore implémenté — prévu
+- Rendu statique par blocs : `title`, `text`, `list`, `link`, `image`
+- Méthode `t()` — fallback langue demandée → `fr` → `en` → chaîne vide
+- Bloc `image` : rendu `<img class="nucleus-image">` avec `loading="lazy"`
+- Pas de `data` multilingue pour `image` — `src` et `alt` directs
 
 ### `JsonHandler`
 - Lecture sécurisée avec exceptions explicites
-- Écriture atomique via fichier `.tmp`
+- Écriture atomique via fichier `.tmp` → `rename()`
 - `listFiles`, `exists`, `delete` disponibles
+
+---
+
+## Admin — `admin/`
+
+### APIs — `admin/api/`
+
+Tous les endpoints suivent la même convention :
+- `require_once __DIR__ . '/../config_admin.php'` en première ligne
+- Vérification `$_SESSION['user']` → 401 si absent
+- `header('Content-Type: application/json; charset=utf-8')`
+- Réponse `{ success, errors?, ... }`
+
+| Fichier | Méthode | Rôle |
+|---|---|---|
+| `save_article.php` | POST | Sauvegarde un article via `ComponentModel` |
+| `get_article.php` | GET `?file=` | Charge un article |
+| `list_articles.php` | GET `?meta=1` | Liste les articles |
+| `delete_article.php` | POST | Supprime un article |
+| `save_page.php` | POST | Sauvegarde un layout de page via `PageModel` |
+| `get_page.php` | GET `?file=` | Charge un layout |
+| `list_pages.php` | GET `?meta=1` | Liste les pages |
+| `delete_page.php` | POST | Supprime une page |
+| `create_page_file.php` | POST | Crée `inc/pages/{id}.php` standard |
+| `save_gallery.php` | POST | Sauvegarde `json/galleries/{folder}.json` |
+| `get_gallery.php` | GET `?folder=` | Charge une galerie |
+| `list_galleries.php` | GET | Liste les galeries JSON |
+| `delete_gallery.php` | POST | Supprime une galerie JSON |
+| `list_images.php` | GET `?dir=` | Sans dir : liste les répertoires ; avec dir : liste les images |
+| `upload_image.php` | POST | Upload via `ImageUploader` (grand format + miniature) |
+| `delete_image.php` | POST | Supprime image + miniature |
+| `rename_image.php` | POST | Renomme image + miniature avec slugification |
+| `save_menus.php` | POST | Sauvegarde `menus.json`, crée les pages manquantes |
+
+### Classes utilitaires — `admin/src/`
+
+#### `ImageUploader`
+- Entrée : `$_FILES` + nom de répertoire
+- Sortie : `['base' => 'dir/slug', 'ext' => 'jpg']`
+- Génère deux fichiers : grand format (max 1280px) et miniature (max 400px)
+- Convertit tout en JPEG — fond blanc pour les PNG/WebP transparents
+- Slugification du nom de fichier à l'upload
+
+#### `FolderManager`
+- Crée, renomme, supprime et liste les répertoires de contenu
+- `create()` génère automatiquement le sous-dossier `thumbs/`
+- Suppression récursive via `deleteRecursive()`
+- Pas de logique d'image, pas d'index JSON
+
+### Pages admin — `admin/pages/`
+
+| Page | Rôle |
+|---|---|
+| `dashboard.php` | Liens vers les sections |
+| `articles.php` | Éditeur d'articles — sidebar + workspace |
+| `pages.php` | Éditeur de layouts de pages — sidebar + builder |
+| `galleries.php` | Gestion des galeries JSON |
+| `medias.php` | Gestion des répertoires d'images |
+| `medias_images.php` | Upload, renommage, suppression d'images |
+| `menus.php` | Éditeur de menus principal et RS |
+
+### Éditeurs JS — `admin/js/`
+
+#### `article_editor.js`
+Éditeur de blocs pour les articles. Responsabilités actuelles :
+- `BlockTemplates` — templates HTML par type de bloc (`title`, `text`, `list`, `link`, `image`)
+- `generateLangInputs()` — champs multilingues par langue active
+- `createBlockWrapper()` — enveloppe bloc avec contrôles (monter/descendre/supprimer)
+- `collectArticleData()` — sérialise le workspace au format JSON v2
+- `loadArticle()` / `saveArticle()` / `deleteArticle()` — appels API
+- `switchEditorLang()` — bascule les champs visibles
+- Media browser — modale de sélection d'images avec chargement des répertoires et prévisualisation
+
+#### `page_builder.js`
+Éditeur de layouts de pages (`article_ref`, `gallery_ref`, `ui_component`).
+
+---
+
+## Schémas JSON
+
+### Article
+
+```json
+{
+    "type": "article",
+    "meta": {
+        "id": "mon-article",
+        "created": "2026-01-01",
+        "updated": "2026-05-23",
+        "status": "draft",
+        "author": "admin"
+    },
+    "content": [
+        { "type": "title", "level": 2, "data": { "fr": "Titre", "en": "Title" } },
+        { "type": "text",  "data": { "fr": "Texte.", "en": "Text." } },
+        { "type": "list",  "data": { "fr": ["A", "B"], "en": ["A", "B"] } },
+        { "type": "link",  "url": "https://example.com", "data": { "fr": "Voir", "en": "See" } },
+        { "type": "image", "src": "home/photo.jpg", "alt": "Description" }
+    ]
+}
+```
+
+### Page
+
+```json
+{
+    "type": "page",
+    "meta": { "id": "home", "created": "2026-01-01", "updated": "2026-05-23", "status": "draft" },
+    "layout": [
+        { "type": "article_ref", "filename": "intro.json" },
+        { "type": "gallery_ref", "folder": "evenements", "gallery": "evenements" },
+        { "type": "ui_component", "name": "hero" }
+    ]
+}
+```
+
+### Galerie
+
+```json
+{
+    "type": "gallery_ref",
+    "folder": "evenements",
+    "title": { "fr": "Événements", "en": "Events" },
+    "images": [
+        {
+            "src": "photo.jpg",
+            "alt": { "fr": "Description", "en": "Description" },
+            "caption": { "fr": "Légende", "en": "Caption" }
+        }
+    ]
+}
+```
 
 ---
 
@@ -353,6 +549,12 @@ Chaque niveau 2 expose ses **variables locales** en tête — un seul endroit à
 | `.nucleus-text` | Paragraphe |
 | `.nucleus-link` | Lien ou bouton |
 | `.nucleus-list` | Liste à puces — marker accent |
+| `.nucleus-image` | Image de contenu — lazy loading |
+| `.nucleus-gallery` | Conteneur galerie |
+| `.gallery-grid` | Grille masonry |
+| `.gallery-item` | Figure individuelle |
+| `.gallery-item__img` | Image de la figure |
+| `.gallery-item__caption` | Légende optionnelle |
 
 ### Variables globales clés — `style.css`
 
@@ -383,16 +585,10 @@ Chaque niveau 2 expose ses **variables locales** en tête — un seul endroit à
 ```json
 {
     "Main_menu": [
-        {
-            "page": "home",
-            "titre": { "fr": "Accueil", "en": "Home" }
-        }
+        { "page": "home", "titre": { "fr": "Accueil", "en": "Home" } }
     ],
     "RS_menu": [
-        {
-            "page": "https://www.facebook.com/...",
-            "titre": "facebook"
-        }
+        { "page": "https://www.facebook.com/...", "titre": "facebook" }
     ]
 }
 ```
@@ -425,7 +621,7 @@ php -S localhost:8000 -t public
 - **Config** : une seule source de vérité — `config.json` pour le métier, `config.php` dérive les constantes
 - **Tests** : tout point de friction corrigé → un `tests/test_*.php` associé
 - **Erreurs** : jamais silencieuses — `error_log` minimum, exception explicite si critique
-- **Langues** : `array_column(getLangs(), 'code')` pour les codes, `foreach ($langs as $langue)` pour itérer
+- **Langues** : `array_column(ConfigModel::getLangs(), 'code')` pour les codes — jamais hardcodé
 
 ---
 
@@ -433,29 +629,42 @@ php -S localhost:8000 -t public
 
 ### Court terme
 
-- [ ] **Bloc `image`** — ajouter le type dans `ArticleRenderer` et `article_editor.js`
+- [x] **Bloc `image`** — `BlockRegistry`, `ArticleRenderer`, `article_editor.js`, modale media-browser ✓
 - [ ] **Icônes RS** — SVG facebook et instagram dans `public/img/deco/`
 - [ ] **Balises OG** — alimentées depuis le JSON de la page ou de l'article courant
-- [ ] **`.htaccess`** — sécuriser `/config/`, `/json/`, `/src/`
-- [ ] **Pages spécifiques** — vérifier si `events`, `social`, `contact` nécessitent du CSS dédié
+- [ ] **`.htaccess`** — sécuriser `/config/`, `/json/`, `/src/`, `/admin/`
+- [ ] **CSS admin** — migrer le CSS inline de `showNotification()` vers des classes
+- [ ] **`login.php`** — nettoyer le HTML, passer en français
 
 ### Moyen terme
 
-- [ ] **Galleries** — auditer `gallery_manager.class.php` et `image_uploader.class.php`
-- [ ] **CSS admin** — migrer le CSS inline de `showNotification()` vers des classes
-- [ ] **Uploads** — vérification MIME réelle, pas seulement l'extension
-- [ ] **`login.php`** — nettoyer le HTML, passer en français
+- [ ] **Uploads** — vérification MIME réelle côté serveur, pas seulement l'extension
+- [ ] **Brouillons** — exploiter `status: draft` côté front (ne pas afficher les articles non publiés)
+- [ ] **Balise `<title>` dynamique** — nourrie par le JSON de la page courante
+- [ ] **Pages spécifiques** — CSS dédié pour `events`, `social`, `contact` si nécessaire
+
+### Nucléarisation de `article_editor.js`
+
+Le fichier dépasse 600 lignes et mêle plusieurs responsabilités. Une découpe naturelle serait :
+
+- `editor-core.js` — état global (`activeLang`, `currentFilename`), `switchEditorLang()`, `generateSlug()`, initialisation DOM
+- `editor-blocks.js` — `BlockTemplates`, `createBlockWrapper()`, `generateLangInputs()`, `addBlock()`, `moveBlock()`
+- `editor-api.js` — `loadArticle()`, `saveArticle()`, `deleteArticle()`, `collectArticleData()`
+- `editor-media.js` — modale media-browser, `loadMediaDirs()`, `loadMediaImages()`
+
+Chaque module expose ses fonctions sur un objet global (`window.NucleusEditor`) ou via des événements custom — sans framework de modules pour rester cohérent avec la philosophie zéro-dépendance.
+
+**Condition préalable** : définir l'ordre de chargement dans `articles.php` et s'assurer que `editor-core.js` est chargé en premier (il porte les variables partagées).
 
 ### Long terme — ambitions
 
-- [ ] **Routing automatique** — fallback `PageRenderer` si pas de fichier `.php` dédié
-- [ ] **Éditeur de menus** — créer une page et l'ajouter au menu en une opération
-- [ ] **Brouillons** — exploiter `status: draft` côté front
-- [ ] **Internationalisation complète** — traductions des contenus JSON par langue
-- [ ] **Kit de démarrage** — template réutilisable vierge
-- [ ] **Tests** — formaliser la couverture sur les composants critiques
+- [ ] **Routing automatique** — fallback `PageRenderer` si pas de fichier `.php` dédié dans `inc/pages/`
+- [ ] **Éditeur de menus amélioré** — créer une page et l'ajouter au menu en une seule opération
+- [ ] **Internationalisation complète** — traductions des libellés admin par langue
+- [ ] **Kit de démarrage** — template réutilisable vierge, sans contenu projet
+- [ ] **Tests** — formaliser la couverture sur `ComponentModel`, `PageModel`, `BlockRegistry`
 
 ---
 
-*Dernière mise à jour : session 6 — 2026-05-11*  
-*Prochaine session : bloc image + icônes RS + pages spécifiques.*
+*Dernière mise à jour : session 7 — 2026-05-23*  
+*Prochaine session : icônes RS + `.htaccess` + nucléarisation JS.*

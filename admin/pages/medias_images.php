@@ -10,7 +10,7 @@ if ($dir === '' || !is_dir(DIR_IMG_CONTENT . $dir)) {
 }
 
 $thumbsDir = DIR_IMG_CONTENT . $dir . DIRECTORY_SEPARATOR . 'thumbs' . DIRECTORY_SEPARATOR;
-$images    = [];
+$images = [];
 
 if (is_dir($thumbsDir)) {
     $files = glob($thumbsDir . '*.{jpg,jpeg,png,webp}', GLOB_BRACE);
@@ -31,9 +31,9 @@ if (is_dir($thumbsDir)) {
             <?php foreach ($images as $filename): ?>
                 <li class="sidebar-item" data-filename="<?= htmlspecialchars($filename) ?>">
                     <div class="item-main">
-                        <img src="/public/img/content/<?= htmlspecialchars($dir) ?>/thumbs/<?= htmlspecialchars($filename) ?>"
-                             alt="<?= htmlspecialchars($filename) ?>"
-                             style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px;">
+                        <img src="<?= htmlspecialchars(PUBLIC_IMG_CONTENT . $dir) ?>/thumbs/<?= htmlspecialchars($filename) ?>"
+                            alt="<?= htmlspecialchars($filename) ?>"
+                            style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px;">
                         <span><?= htmlspecialchars($filename) ?></span>
                     </div>
                     <div class="item-actions">
@@ -67,128 +67,129 @@ if (is_dir($thumbsDir)) {
 </div>
 
 <script>
-const DIR   = <?= json_encode($dir) ?>;
-const API   = 'api/';
-let renamingFile = null;
+    const DIR = <?= json_encode($dir) ?>;
+    const PUBLIC_CONTENT = <?= json_encode(PUBLIC_IMG_CONTENT) ?>;
+    const API = 'api/';
+    let renamingFile = null;
 
-// === UPLOAD ===
-document.getElementById('btn-upload').addEventListener('click', async () => {
-    const files = document.getElementById('file-input').files;
-    if (!files.length) return;
+    // === UPLOAD ===
+    document.getElementById('btn-upload').addEventListener('click', async () => {
+        const files = document.getElementById('file-input').files;
+        if (!files.length) return;
 
-    const status = document.getElementById('upload-status');
-    status.textContent = 'Upload en cours...';
+        const status = document.getElementById('upload-status');
+        status.textContent = 'Upload en cours...';
 
-    for (const file of files) {
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('dir', DIR);
+        for (const file of files) {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('dir', DIR);
+
+            try {
+                const res = await fetch(API + 'upload_image.php', { method: 'POST', body: formData });
+                const result = await res.json();
+
+                if (result.success) {
+                    addImageToList(result.base.split('/').pop() + '.' + result.ext);
+                } else {
+                    status.textContent = 'Erreur : ' + result.error;
+                    return;
+                }
+            } catch (e) {
+                status.textContent = 'Erreur : ' + e.message;
+                return;
+            }
+        }
+
+        status.textContent = files.length + ' image(s) uploadée(s).';
+        document.getElementById('file-input').value = '';
+    });
+
+    // === SUPPRESSION ===
+    document.getElementById('image-list').addEventListener('click', (e) => {
+        const btnDelete = e.target.closest('.btn-delete-image');
+        if (btnDelete) {
+            const filename = btnDelete.dataset.filename;
+            if (!confirm(`Supprimer "${filename}" ?`)) return;
+            deleteImage(filename, btnDelete.closest('li'));
+        }
+
+        const btnRename = e.target.closest('.btn-rename-image');
+        if (btnRename) {
+            startRename(btnRename.dataset.filename);
+        }
+    });
+
+    async function deleteImage(filename, liEl) {
+        try {
+            const res = await fetch(API + 'delete_image.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dir: DIR, filename })
+            });
+            const result = await res.json();
+            if (result.success) {
+                liEl?.remove();
+            } else {
+                alert('Erreur : ' + result.error);
+            }
+        } catch (e) {
+            alert('Erreur : ' + e.message);
+        }
+    }
+
+    // === RENOMMAGE ===
+    function startRename(filename) {
+        renamingFile = filename;
+        document.getElementById('rename-input').value = filename.replace('.jpg', '');
+        document.getElementById('rename-section').style.display = 'block';
+    }
+
+    document.getElementById('btn-rename-cancel').addEventListener('click', () => {
+        renamingFile = null;
+        document.getElementById('rename-section').style.display = 'none';
+    });
+
+    document.getElementById('btn-rename-confirm').addEventListener('click', async () => {
+        const newName = document.getElementById('rename-input').value.trim();
+        if (!newName || !renamingFile) return;
 
         try {
-            const res    = await fetch(API + 'upload_image.php', { method: 'POST', body: formData });
+            const res = await fetch(API + 'rename_image.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dir: DIR, old_name: renamingFile, new_name: newName })
+            });
             const result = await res.json();
 
             if (result.success) {
-                addImageToList(result.base.split('/').pop() + '.' + result.ext);
+                const li = document.querySelector(`[data-filename="${renamingFile}"]`);
+                if (li) {
+                    li.dataset.filename = result.filename;
+                    li.querySelector('.btn-delete-image').dataset.filename = result.filename;
+                    li.querySelector('.btn-rename-image').dataset.filename = result.filename;
+                    li.querySelector('span').textContent = result.filename;
+                    li.querySelector('img').src = `${PUBLIC_CONTENT}${DIR}/thumbs/${filename}`;
+                }
+                renamingFile = null;
+                document.getElementById('rename-section').style.display = 'none';
             } else {
-                status.textContent = 'Erreur : ' + result.error;
-                return;
+                alert('Erreur : ' + result.error);
             }
         } catch (e) {
-            status.textContent = 'Erreur : ' + e.message;
-            return;
+            alert('Erreur : ' + e.message);
         }
-    }
+    });
 
-    status.textContent = files.length + ' image(s) uploadée(s).';
-    document.getElementById('file-input').value = '';
-});
-
-// === SUPPRESSION ===
-document.getElementById('image-list').addEventListener('click', (e) => {
-    const btnDelete = e.target.closest('.btn-delete-image');
-    if (btnDelete) {
-        const filename = btnDelete.dataset.filename;
-        if (!confirm(`Supprimer "${filename}" ?`)) return;
-        deleteImage(filename, btnDelete.closest('li'));
-    }
-
-    const btnRename = e.target.closest('.btn-rename-image');
-    if (btnRename) {
-        startRename(btnRename.dataset.filename);
-    }
-});
-
-async function deleteImage(filename, liEl) {
-    try {
-        const res    = await fetch(API + 'delete_image.php', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ dir: DIR, filename })
-        });
-        const result = await res.json();
-        if (result.success) {
-            liEl?.remove();
-        } else {
-            alert('Erreur : ' + result.error);
-        }
-    } catch (e) {
-        alert('Erreur : ' + e.message);
-    }
-}
-
-// === RENOMMAGE ===
-function startRename(filename) {
-    renamingFile = filename;
-    document.getElementById('rename-input').value = filename.replace('.jpg', '');
-    document.getElementById('rename-section').style.display = 'block';
-}
-
-document.getElementById('btn-rename-cancel').addEventListener('click', () => {
-    renamingFile = null;
-    document.getElementById('rename-section').style.display = 'none';
-});
-
-document.getElementById('btn-rename-confirm').addEventListener('click', async () => {
-    const newName = document.getElementById('rename-input').value.trim();
-    if (!newName || !renamingFile) return;
-
-    try {
-        const res    = await fetch(API + 'rename_image.php', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ dir: DIR, old_name: renamingFile, new_name: newName })
-        });
-        const result = await res.json();
-
-        if (result.success) {
-            const li = document.querySelector(`[data-filename="${renamingFile}"]`);
-            if (li) {
-                li.dataset.filename = result.filename;
-                li.querySelector('.btn-delete-image').dataset.filename = result.filename;
-                li.querySelector('.btn-rename-image').dataset.filename = result.filename;
-                li.querySelector('span').textContent = result.filename;
-                li.querySelector('img').src = `/public/img/content/${DIR}/thumbs/${result.filename}`;
-            }
-            renamingFile = null;
-            document.getElementById('rename-section').style.display = 'none';
-        } else {
-            alert('Erreur : ' + result.error);
-        }
-    } catch (e) {
-        alert('Erreur : ' + e.message);
-    }
-});
-
-// === AJOUT DYNAMIQUE ===
-function addImageToList(filename) {
-    const ul  = document.getElementById('image-list');
-    const li  = document.createElement('li');
-    li.className = 'sidebar-item';
-    li.dataset.filename = filename;
-    li.innerHTML = `
+    // === AJOUT DYNAMIQUE ===
+    function addImageToList(filename) {
+        const ul = document.getElementById('image-list');
+        const li = document.createElement('li');
+        li.className = 'sidebar-item';
+        li.dataset.filename = filename;
+        li.innerHTML = `
         <div class="item-main">
-            <img src="/public/img/content/${DIR}/thumbs/${filename}"
+                <img src="${PUBLIC_CONTENT}${DIR}/thumbs/${filename}"
                  alt="${filename}"
                  style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px;">
             <span>${filename}</span>
@@ -198,6 +199,6 @@ function addImageToList(filename) {
             <button type="button" class="btn-delete-image" data-filename="${filename}" title="Supprimer">🗑️</button>
         </div>
     `;
-    ul.appendChild(li);
-}
+        ul.appendChild(li);
+    }
 </script>
